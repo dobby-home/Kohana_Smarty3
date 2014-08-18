@@ -38,7 +38,7 @@ function smarty_modifier_date_format($string, $format = SMARTY_RESOURCE_DATE_FOR
     } else {
         return;
     }
-    $months = array('','января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
+    $months = array('', 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
     if ($formatter == 'strftime' || ($formatter == 'auto' && strpos($format, '%') !== false)) {
         if (DS == '\\') {
             $_win_from = array('%D', '%h', '%n', '%r', '%R', '%t', '%T', '%N');
@@ -53,6 +53,10 @@ function smarty_modifier_date_format($string, $format = SMARTY_RESOURCE_DATE_FOR
             }
             $format = str_replace($_win_from, $_win_to, $format);
 
+        } else {
+            $_from = array('%N');
+            $_to = array($months[(int)date('m', $timestamp)]);
+            $format = str_replace($_from, $_to, $format);
         }
         return strftime($format, $timestamp);
     } else {
